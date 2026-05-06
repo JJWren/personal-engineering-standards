@@ -12,7 +12,7 @@ This repository centralizes my language standards, AI-assisted development workf
 
 ## Setup
 
-1. Clone this repository to `C:\Users\joshu\source\personal-engineering-standards`.
+1. Clone this repository to `C:\Users\{you-username-here}\source\personal-engineering-standards`.
 2. Ensure the following environment variables are set:
    - `LLMWIKI_ROOT`
    - `PERSONAL_OBSIDIAN_VAULT`
