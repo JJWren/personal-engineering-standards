@@ -19,6 +19,7 @@ This repository centralizes my language standards, AI-assisted development workf
    - `PERSONAL_REPO_CACHE`
    - `GitHub_PAT`
    - `GitHub Issues_TOKEN`
+   - `AI_TOOLING_ROOT` (plus tool-specific vars `KAVITA_DB_PATH`, `CALIBRE_LIBRARY_PATH`, `BOOKS_CURATED_ROOT` — see `skills/personal-environment/SKILL.md`)
 3. Run `.\setup.ps1` to deploy steering and skills to your local AI tools.
 
 ## Syncing Skills
