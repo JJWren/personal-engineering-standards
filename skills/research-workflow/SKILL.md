@@ -8,8 +8,6 @@ tags:
   - workflow
   - research
   - wiki
-portable-tier: 3
-ai-inclusion: manual
 ---
 
 # Research Workflow

@@ -9,8 +9,6 @@ tags:
   - git
   - github
   - workflow
-portable-tier: 2
-ai-inclusion: manual
 ---
 
 # Create Pull Request

@@ -9,8 +9,6 @@ tags:
   - wiki
   - knowledge-base
   - workflow
-portable-tier: 2
-ai-inclusion: auto
 ---
 
 # LlmWiki — Integrated Knowledge Base Skill

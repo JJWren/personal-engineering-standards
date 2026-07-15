@@ -9,9 +9,6 @@ description: >-
 tags:
   - code-quality
   - dotnet
-portable-tier: 1
-copilot-apply-to: "**/*.cs"
-ai-inclusion: auto
 ---
 
 # Coding Standards

@@ -10,8 +10,6 @@ tags:
   - workflow
   - daily
   - planning
-portable-tier: 3
-ai-inclusion: manual
 ---
 
 # Action Review

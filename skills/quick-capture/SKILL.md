@@ -9,8 +9,6 @@ tags:
   - wiki
   - notes
   - workflow
-portable-tier: 1
-ai-inclusion: auto
 ---
 
 # Quick Capture

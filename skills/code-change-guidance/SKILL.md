@@ -11,9 +11,6 @@ tags:
   - code-quality
   - pipelines
   - review
-portable-tier: 1
-copilot-apply-to: "**/*.yml,**/*.yaml,**/*.cs"
-ai-inclusion: auto
 ---
 
 # Code Change Guidance

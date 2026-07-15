@@ -8,8 +8,6 @@ description: >-
 tags:
   - config
   - environment
-portable-tier: 1
-ai-inclusion: auto
 ---
 
 # Personal Environment

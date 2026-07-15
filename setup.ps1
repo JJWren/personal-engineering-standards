@@ -3,39 +3,53 @@ param(
 )
 
 $RepoRoot = $PSScriptRoot
-$TargetTools = @{
-    "Gemini" = "$env:USERPROFILE\.gemini-cli"
-    "Claude" = "$env:USERPROFILE\.claudecode"
-}
 
 Write-Host "--- Personal Engineering Standards Setup ---" -ForegroundColor Cyan
 
-# 1. Ensure Target Directories Exist
-foreach ($Tool in $TargetTools.Keys) {
-    $Path = $TargetTools[$Tool]
-    if (-not (Test-Path $Path)) {
-        Write-Host "Creating directory for $($Tool): $Path"
-        if (-not $DryRun) { New-Item -ItemType Directory -Path $Path -Force }
+function Deploy-Symlink {
+    param([string]$Source, [string]$Target)
+    $TargetDir = Split-Path $Target -Parent
+    if (-not (Test-Path $TargetDir)) {
+        Write-Host "  Creating: $TargetDir"
+        if (-not $DryRun) { New-Item -ItemType Directory -Path $TargetDir -Force | Out-Null }
     }
-}
-
-# 2. Deploy Steering Files
-Write-Host "`nDeploying Steering (Core Workflow)..." -ForegroundColor Yellow
-$SteeringMap = @{
-    "$RepoRoot\steering\core-workflow.md" = "$($TargetTools['Gemini'])\GEMINI.md"
-}
-
-foreach ($Source in $SteeringMap.Keys) {
-    $Target = $SteeringMap[$Source]
     if (Test-Path $Target) {
-        Write-Host "Removing existing file: $Target"
+        Write-Host "  Removing: $Target"
         if (-not $DryRun) { Remove-Item $Target -Force }
     }
-    
-    Write-Host "Linking $Source -> $Target"
-    if (-not $DryRun) {
-        New-Item -ItemType SymbolicLink -Path $Target -Target $Source -Force
+    Write-Host "  Link: $Source -> $Target"
+    if (-not $DryRun) { New-Item -ItemType SymbolicLink -Path $Target -Target $Source -Force | Out-Null }
+}
+
+# --- Gemini ---
+Write-Host "`nDeploying to Gemini..." -ForegroundColor Yellow
+$GeminiRoot = "$env:USERPROFILE\.gemini-cli"
+if (-not (Test-Path $GeminiRoot)) {
+    if (-not $DryRun) { New-Item -ItemType Directory -Path $GeminiRoot -Force | Out-Null }
+}
+Deploy-Symlink "$RepoRoot\steering\core-workflow.md" "$GeminiRoot\GEMINI.md"
+
+# --- Claude Code ---
+Write-Host "`nDeploying to Claude Code..." -ForegroundColor Yellow
+$ClaudeRoot = "$env:USERPROFILE\.claude"
+if (-not (Test-Path $ClaudeRoot)) {
+    if (-not $DryRun) { New-Item -ItemType Directory -Path $ClaudeRoot -Force | Out-Null }
+}
+
+# Deploy core workflow as global CLAUDE.md
+Deploy-Symlink "$RepoRoot\steering\core-workflow.md" "$ClaudeRoot\CLAUDE.md"
+
+# Deploy skills as commands
+$CommandsDir = "$ClaudeRoot\commands"
+if (-not (Test-Path $CommandsDir)) {
+    if (-not $DryRun) { New-Item -ItemType Directory -Path $CommandsDir -Force | Out-Null }
+}
+
+Get-ChildItem "$RepoRoot\skills" -Directory | ForEach-Object {
+    $SkillFile = Join-Path $_.FullName "SKILL.md"
+    if (Test-Path $SkillFile) {
+        Deploy-Symlink $SkillFile "$CommandsDir\$($_.Name).md"
     }
 }
 
-Write-Host "`nSetup Complete. Your AI tools are now linked to your standards repository." -ForegroundColor Green
+Write-Host "`nSetup Complete." -ForegroundColor Green

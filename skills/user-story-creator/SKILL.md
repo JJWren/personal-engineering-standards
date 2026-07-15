@@ -10,8 +10,6 @@ tags:
   - workflow
   - stories
   - wiki
-portable-tier: 2
-ai-inclusion: manual
 ---
 
 # User Story Creator

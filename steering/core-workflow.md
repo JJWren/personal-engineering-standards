@@ -10,39 +10,18 @@ The AI model intelligently assesses what stages are needed based on:
 3. Complexity and scope of change
 4. Risk and impact assessment
 
-## MANDATORY: Rule Details Loading
-**CRITICAL**: When performing any phase, you MUST read and use relevant content from rule detail files in `.ai-tool/workflows/ai-development-lifecycle/` or `.amazonq/workflows/ai-development-lifecycle/` directory.
-
-**Common Rules**: ALWAYS load common rules at workflow start:
-- Load `common/process-overview.md` for workflow overview
-- Load `common/session-continuity.md` for session resumption guidance
-- Load `common/content-validation.md` for content validation requirements
-- Load `common/question-format-guide.md` for question formatting rules
-- Reference these throughout the workflow execution
-
 ## MANDATORY: Content Validation
-**CRITICAL**: Before creating ANY file, you MUST validate content according to `common/content-validation.md` rules:
+**CRITICAL**: Before creating ANY file, you MUST validate content:
 - Validate Mermaid diagram syntax
 - Escape special characters properly
 - Provide text alternatives for complex visual content
 - Test content parsing compatibility
 
-## MANDATORY: Question File Format
-**CRITICAL**: When asking questions at any phase, you MUST follow question format guidelines.
+## MANDATORY: Question Format
+**CRITICAL**: When asking clarifying questions at any phase, use multiple choice format (A, B, C, D, E options) with an `[Answer]:` tag. Resolve all ambiguities before proceeding.
 
-**See `common/question-format-guide.md` for complete question formatting rules including**:
-- Multiple choice format (A, B, C, D, E options)
-- [Answer]: tag usage
-- Answer validation and ambiguity resolution
-
-## MANDATORY: Custom Welcome Message
-**CRITICAL**: When starting ANY software development request, you MUST display the welcome message.
-
-**How to Display Welcome Message**:
-1. Load the welcome message from `.ai-tool/workflows/ai-development-lifecycle/common/welcome-message.md` or `.amazonq/workflows/ai-development-lifecycle/common/welcome-message.md`
-2. Display the complete message to the user
-3. This should only be done ONCE at the start of a new workflow
-4. Do NOT load this file in subsequent interactions to save context space
+## MANDATORY: Workflow Start
+**CRITICAL**: When starting ANY software development request, briefly introduce the workflow stage you are entering and what you will accomplish. Do this ONCE at the start of a new workflow only.
 
 # Adaptive Software Development Workflow
 
@@ -68,16 +47,15 @@ The AI model intelligently assesses what stages are needed based on:
 ## Workspace Detection (ALWAYS EXECUTE)
 
 1. **MANDATORY**: Log initial user request in audit.md with complete raw input
-2. Load all steps from `inception/workspace-detection.md`
-3. Execute workspace detection:
+2. Execute workspace detection:
    - Check for existing aidlc-state.md (resume if found)
    - Scan workspace for existing code
    - Determine if brownfield or greenfield
    - Check for existing reverse engineering artifacts
-4. Determine next phase: Reverse Engineering (if brownfield and no artifacts) OR Requirements Analysis
-5. **MANDATORY**: Log findings in audit.md
-6. Present completion message to user (see workspace-detection.md for message formats)
-7. Automatically proceed to next phase
+3. Determine next phase: Reverse Engineering (if brownfield and no artifacts) OR Requirements Analysis
+4. **MANDATORY**: Log findings in audit.md
+5. Present completion message: state whether project is brownfield or greenfield, what was found, and what the next phase will be
+6. Automatically proceed to next phase
 
 ## Reverse Engineering (CONDITIONAL - Brownfield Only)
 
@@ -91,10 +69,9 @@ The AI model intelligently assesses what stages are needed based on:
 
 **Execution**:
 1. **MANDATORY**: Log start of reverse engineering in audit.md
-2. Load all steps from `inception/reverse-engineering.md`
-3. Execute reverse engineering:
+2. Execute reverse engineering:
    - Analyze all packages and components
-   - Generate a busienss overview of the whole system covering the business transactions
+   - Generate a business overview of the whole system covering the business transactions
    - Generate architecture documentation
    - Generate code structure documentation
    - Generate API documentation
@@ -102,9 +79,8 @@ The AI model intelligently assesses what stages are needed based on:
    - Generate Interaction Diagrams depicting how business transactions are implemented across components
    - Generate technology stack documentation
    - Generate dependencies documentation
-
-4. **Wait for Explicit Approval**: Present detailed completion message (see reverse-engineering.md for message format) - DO NOT PROCEED until user confirms
-5. **MANDATORY**: Log user's response in audit.md with complete raw input
+3. **Wait for Explicit Approval**: Present a summary of all generated artifacts and ask the user to confirm before proceeding - DO NOT PROCEED until user confirms
+4. **MANDATORY**: Log user's response in audit.md with complete raw input
 
 ## Requirements Analysis (ALWAYS EXECUTE - Adaptive Depth)
 
@@ -115,17 +91,16 @@ The AI model intelligently assesses what stages are needed based on:
 
 **Execution**:
 1. **MANDATORY**: Log any user input during this phase in audit.md
-2. Load all steps from `inception/requirements-analysis.md`
-3. Execute requirements analysis:
+2. Execute requirements analysis:
    - Load reverse engineering artifacts (if brownfield)
    - Analyze user request (intent analysis)
    - Determine requirements depth needed
    - Assess current requirements
    - Ask clarifying questions (if needed)
    - Generate requirements document
-4. Execute at appropriate depth (minimal/standard/comprehensive)
-5. **Wait for Explicit Approval**: Follow approval format from requirements-analysis.md detailed steps - DO NOT PROCEED until user confirms
-6. **MANDATORY**: Log user's response in audit.md with complete raw input
+3. Execute at appropriate depth (minimal/standard/comprehensive)
+4. **Wait for Explicit Approval**: Present requirements document and ask "Requirements analysis complete. Do you want to request changes or continue to the next stage?" - DO NOT PROCEED until user confirms
+5. **MANDATORY**: Log user's response in audit.md with complete raw input
 
 ## User Stories (CONDITIONAL)
 
@@ -171,7 +146,7 @@ The AI model intelligently assesses what stages are needed based on:
 - Work that benefits from shared team understanding
 - Projects where requirements clarity is valuable
 
-**ASSESSMENT PROCESS**: 
+**ASSESSMENT PROCESS**:
 1. Analyze request complexity and scope
 2. Identify user impact (direct or indirect)
 3. Evaluate business context and stakeholder needs
@@ -186,34 +161,31 @@ The AI model intelligently assesses what stages are needed based on:
 
 **Execution**:
 1. **MANDATORY**: Log any user input during this phase in audit.md
-2. Load all steps from `inception/user-stories.md`
-3. **MANDATORY**: Perform intelligent assessment (Step 1 in user-stories.md) to validate user stories are needed
-4. Load reverse engineering artifacts (if brownfield)
-5. If Requirements exist, reference them when creating stories
-6. Execute at appropriate depth (minimal/standard/comprehensive)
-7. **PART 1 - Planning**: Create story plan with questions, wait for user answers, analyze for ambiguities, get approval
-8. **PART 2 - Generation**: Execute approved plan to generate stories and personas
-9. **Wait for Explicit Approval**: Follow approval format from user-stories.md detailed steps - DO NOT PROCEED until user confirms
-10. **MANDATORY**: Log user's response in audit.md with complete raw input
+2. **MANDATORY**: Perform intelligent assessment (criteria above) to validate user stories are needed
+3. Load reverse engineering artifacts (if brownfield)
+4. If Requirements exist, reference them when creating stories
+5. Execute at appropriate depth (minimal/standard/comprehensive)
+6. **PART 1 - Planning**: Create story plan with questions, wait for user answers, analyze for ambiguities, get approval
+7. **PART 2 - Generation**: Execute approved plan to generate stories and personas
+8. **Wait for Explicit Approval**: Present generated stories and personas, ask "User stories complete. Do you want to request changes or continue to the next stage?" - DO NOT PROCEED until user confirms
+9. **MANDATORY**: Log user's response in audit.md with complete raw input
 
 ## Workflow Planning (ALWAYS EXECUTE)
 
 1. **MANDATORY**: Log any user input during this phase in audit.md
-2. Load all steps from `inception/workflow-planning.md`
-3. **MANDATORY**: Load content validation rules from `common/content-validation.md`
-4. Load all prior context:
+2. **MANDATORY**: Validate all content before file creation (Mermaid syntax, special characters, text alternatives)
+3. Load all prior context:
    - Reverse engineering artifacts (if brownfield)
    - Intent analysis
    - Requirements (if executed)
    - User stories (if executed)
-5. Execute workflow planning:
+4. Execute workflow planning:
    - Determine which phases to execute
    - Determine depth level for each phase
    - Create multi-package change sequence (if brownfield)
    - Generate workflow visualization (VALIDATE Mermaid syntax before writing)
-6. **MANDATORY**: Validate all content before file creation per content-validation.md rules
-7. **Wait for Explicit Approval**: Present recommendations using language from workflow-planning.md Step 9, emphasizing user control to override recommendations - DO NOT PROCEED until user confirms
-8. **MANDATORY**: Log user's response in audit.md with complete raw input
+5. **Wait for Explicit Approval**: Present the proposed workflow plan with all recommended phases and depths, emphasizing that the user can override any recommendations - DO NOT PROCEED until user confirms
+6. **MANDATORY**: Log user's response in audit.md with complete raw input
 
 ## Application Design (CONDITIONAL)
 
@@ -230,11 +202,10 @@ The AI model intelligently assesses what stages are needed based on:
 
 **Execution**:
 1. **MANDATORY**: Log any user input during this phase in audit.md
-2. Load all steps from `inception/application-design.md`
-3. Load reverse engineering artifacts (if brownfield)
-4. Execute at appropriate depth (minimal/standard/comprehensive)
-5. **Wait for Explicit Approval**: Present detailed completion message (see application-design.md for message format) - DO NOT PROCEED until user confirms
-6. **MANDATORY**: Log user's response in audit.md with complete raw input
+2. Load reverse engineering artifacts (if brownfield)
+3. Execute at appropriate depth (minimal/standard/comprehensive)
+4. **Wait for Explicit Approval**: Present the application design artifacts and ask "Application design complete. Do you want to request changes or continue to the next stage?" - DO NOT PROCEED until user confirms
+5. **MANDATORY**: Log user's response in audit.md with complete raw input
 
 ## Units Generation (CONDITIONAL)
 
@@ -250,11 +221,10 @@ The AI model intelligently assesses what stages are needed based on:
 
 **Execution**:
 1. **MANDATORY**: Log any user input during this phase in audit.md
-2. Load all steps from `inception/units-generation.md`
-3. Load reverse engineering artifacts (if brownfield)
-4. Execute at appropriate depth (minimal/standard/comprehensive)
-5. **Wait for Explicit Approval**: Present detailed completion message (see units-generation.md for message format) - DO NOT PROCEED until user confirms
-6. **MANDATORY**: Log user's response in audit.md with complete raw input
+2. Load reverse engineering artifacts (if brownfield)
+3. Execute at appropriate depth (minimal/standard/comprehensive)
+4. **Wait for Explicit Approval**: Present the generated units of work and ask "Units generation complete. Do you want to request changes or continue to the next stage?" - DO NOT PROCEED until user confirms
+5. **MANDATORY**: Log user's response in audit.md with complete raw input
 
 ---
 
@@ -294,11 +264,10 @@ The AI model intelligently assesses what stages are needed based on:
 
 **Execution**:
 1. **MANDATORY**: Log any user input during this stage in audit.md
-2. Load all steps from `construction/functional-design.md`
-3. Execute functional design for this unit
-4. **MANDATORY**: Present standardized 2-option completion message as defined in functional-design.md - DO NOT use emergent 3-option behavior
-5. **Wait for Explicit Approval**: User must choose between "Request Changes" or "Continue to Next Stage" - DO NOT PROCEED until user confirms
-6. **MANDATORY**: Log user's response in audit.md with complete raw input
+2. Execute functional design for this unit
+3. **MANDATORY**: Present a 2-option completion message: "Functional design complete. Choose: A) Request Changes  B) Continue to Next Stage" - DO NOT use other options
+4. **Wait for Explicit Approval**: User must choose between "Request Changes" or "Continue to Next Stage" - DO NOT PROCEED until user confirms
+5. **MANDATORY**: Log user's response in audit.md with complete raw input
 
 ### NFR Requirements (CONDITIONAL, per-unit)
 
@@ -314,11 +283,10 @@ The AI model intelligently assesses what stages are needed based on:
 
 **Execution**:
 1. **MANDATORY**: Log any user input during this stage in audit.md
-2. Load all steps from `construction/nfr-requirements.md`
-3. Execute NFR assessment for this unit
-4. **MANDATORY**: Present standardized 2-option completion message as defined in nfr-requirements.md - DO NOT use emergent behavior
-5. **Wait for Explicit Approval**: User must choose between "Request Changes" or "Continue to Next Stage" - DO NOT PROCEED until user confirms
-6. **MANDATORY**: Log user's response in audit.md with complete raw input
+2. Execute NFR assessment for this unit
+3. **MANDATORY**: Present a 2-option completion message: "NFR requirements complete. Choose: A) Request Changes  B) Continue to Next Stage" - DO NOT use other options
+4. **Wait for Explicit Approval**: User must choose between "Request Changes" or "Continue to Next Stage" - DO NOT PROCEED until user confirms
+5. **MANDATORY**: Log user's response in audit.md with complete raw input
 
 ### NFR Design (CONDITIONAL, per-unit)
 
@@ -332,11 +300,10 @@ The AI model intelligently assesses what stages are needed based on:
 
 **Execution**:
 1. **MANDATORY**: Log any user input during this stage in audit.md
-2. Load all steps from `construction/nfr-design.md`
-3. Execute NFR design for this unit
-4. **MANDATORY**: Present standardized 2-option completion message as defined in nfr-design.md - DO NOT use emergent behavior
-5. **Wait for Explicit Approval**: User must choose between "Request Changes" or "Continue to Next Stage" - DO NOT PROCEED until user confirms
-6. **MANDATORY**: Log user's response in audit.md with complete raw input
+2. Execute NFR design for this unit
+3. **MANDATORY**: Present a 2-option completion message: "NFR design complete. Choose: A) Request Changes  B) Continue to Next Stage" - DO NOT use other options
+4. **Wait for Explicit Approval**: User must choose between "Request Changes" or "Continue to Next Stage" - DO NOT PROCEED until user confirms
+5. **MANDATORY**: Log user's response in audit.md with complete raw input
 
 ### Infrastructure Design (CONDITIONAL, per-unit)
 
@@ -351,11 +318,10 @@ The AI model intelligently assesses what stages are needed based on:
 
 **Execution**:
 1. **MANDATORY**: Log any user input during this stage in audit.md
-2. Load all steps from `construction/infrastructure-design.md`
-3. Execute infrastructure design for this unit
-4. **MANDATORY**: Present standardized 2-option completion message as defined in infrastructure-design.md - DO NOT use emergent behavior
-5. **Wait for Explicit Approval**: User must choose between "Request Changes" or "Continue to Next Stage" - DO NOT PROCEED until user confirms
-6. **MANDATORY**: Log user's response in audit.md with complete raw input
+2. Execute infrastructure design for this unit
+3. **MANDATORY**: Present a 2-option completion message: "Infrastructure design complete. Choose: A) Request Changes  B) Continue to Next Stage" - DO NOT use other options
+4. **Wait for Explicit Approval**: User must choose between "Request Changes" or "Continue to Next Stage" - DO NOT PROCEED until user confirms
+5. **MANDATORY**: Log user's response in audit.md with complete raw input
 
 ### Code Generation (ALWAYS EXECUTE, per-unit)
 
@@ -367,28 +333,26 @@ The AI model intelligently assesses what stages are needed based on:
 
 **Execution**:
 1. **MANDATORY**: Log any user input during this stage in audit.md
-2. Load all steps from `construction/code-generation.md`
-3. **PART 1 - Planning**: Create code generation plan with checkboxes, get user approval
-4. **PART 2 - Generation**: Execute approved plan to generate code for this unit
-5. **MANDATORY**: Present standardized 2-option completion message as defined in code-generation.md - DO NOT use emergent behavior
-6. **Wait for Explicit Approval**: User must choose between "Request Changes" or "Continue to Next Stage" - DO NOT PROCEED until user confirms
-7. **MANDATORY**: Log user's response in audit.md with complete raw input
+2. **PART 1 - Planning**: Create code generation plan with checkboxes, get user approval
+3. **PART 2 - Generation**: Execute approved plan to generate code for this unit
+4. **MANDATORY**: Present a 2-option completion message: "Code generation complete. Choose: A) Request Changes  B) Continue to Next Stage" - DO NOT use other options
+5. **Wait for Explicit Approval**: User must choose between "Request Changes" or "Continue to Next Stage" - DO NOT PROCEED until user confirms
+6. **MANDATORY**: Log user's response in audit.md with complete raw input
 
 ---
 
 ## Build and Test (ALWAYS EXECUTE)
 
 1. **MANDATORY**: Log any user input during this phase in audit.md
-2. Load all steps from `construction/build-and-test.md`
-3. Generate comprehensive build and test instructions:
+2. Generate comprehensive build and test instructions:
    - Build instructions for all units
    - Unit test execution instructions
    - Integration test instructions (test interactions between units)
    - Performance test instructions (if applicable)
    - Additional test instructions as needed (contract tests, security tests, e2e tests)
-4. Create instruction files in build-and-test/ subdirectory: build-instructions.md, unit-test-instructions.md, integration-test-instructions.md, performance-test-instructions.md, build-and-test-summary.md
-5. **Wait for Explicit Approval**: Ask: "**Build and test instructions complete. Ready to proceed to Operations stage?**" - DO NOT PROCEED until user confirms
-6. **MANDATORY**: Log user's response in audit.md with complete raw input
+3. Create instruction files in build-and-test/ subdirectory: build-instructions.md, unit-test-instructions.md, integration-test-instructions.md, performance-test-instructions.md, build-and-test-summary.md
+4. **Wait for Explicit Approval**: Ask: "**Build and test instructions complete. Ready to proceed to Operations stage?**" - DO NOT PROCEED until user confirms
+5. **MANDATORY**: Log user's response in audit.md with complete raw input
 
 ---
 
@@ -427,8 +391,8 @@ The Operations stage will eventually include:
   - **CRITICAL**: Never summarize or paraphrase user input in audit log
   - **CRITICAL**: Log every interaction, not just approvals
 - **Quality Focus**: Complex changes get full treatment, simple changes stay efficient
-- **Content Validation**: Always validate content before file creation per content-validation.md rules
-- **NO EMERGENT BEHAVIOR**: Construction phases MUST use standardized 2-option completion messages as defined in their respective rule files. DO NOT create 3-option menus or other emergent navigation patterns.
+- **Content Validation**: Always validate content before file creation (Mermaid syntax, special characters, text alternatives)
+- **NO EMERGENT BEHAVIOR**: Construction phases MUST use standardized 2-option completion messages. DO NOT create 3-option menus or other emergent navigation patterns.
 
 ## MANDATORY: Plan-Level Checkbox Enforcement
 
@@ -449,7 +413,6 @@ The Operations stage will eventually include:
 - **MANDATORY**: Log every approval prompt with timestamp before asking the user
 - **MANDATORY**: Record every user response with timestamp after receiving it
 - **CRITICAL**: ALWAYS append changes to EDIT audit.md file, NEVER use tools and commands that completely overwrite its contents
-- **CRITICAL**: Using file writing tools and commands that overwrite contents of the entire audit.md and cause duplication
 - Use ISO 8601 format for timestamps (YYYY-MM-DDTHH:MM:SSZ)
 - Include stage context for each entry
 

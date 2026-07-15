@@ -9,8 +9,6 @@ tags:
   - wiki
   - logging
   - workflow
-portable-tier: 2
-ai-inclusion: auto
 ---
 
 # Audit Trail
