@@ -4,7 +4,7 @@ param(
 
 $RepoRoot = $PSScriptRoot
 
-Write-Host "--- Personal Engineering Standards Setup ---" -ForegroundColor Cyan
+Write-Host "--- Personal AI Standards Setup ---" -ForegroundColor Cyan
 
 function Deploy-Symlink {
     param([string]$Source, [string]$Target)

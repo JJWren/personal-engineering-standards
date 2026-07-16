@@ -24,7 +24,7 @@ This document defines when and how to load Example Organization-specific coding 
 ## Guidelines Directory Structure
 
 ```text
-$env:USERPROFILE\personal-engineering-standards\standards\
+$env:USERPROFILE\personal-ai-standards\standards\
 ├── general/
 │   ├── coding-standards.md           # Universal coding standards
 │   ├── security-practices.md         # Security requirements
@@ -320,7 +320,7 @@ Use responses to determine which guidelines to load.
 
 ## Mandatory Loading Rules
 
-**CRITICAL**: When performing any phase, you MUST read and use relevant content from rule detail files in `$env:USERPROFILE\personal-engineering-standards\standards\`.
+**CRITICAL**: When performing any phase, you MUST read and use relevant content from rule detail files in `$env:USERPROFILE\personal-ai-standards\standards\`.
 
 ### CRITICAL: Always Load These Guidelines
 ```markdown

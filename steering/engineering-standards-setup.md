@@ -15,7 +15,7 @@ if (Test-Path (Join-Path $StdPath ".git")) {
     cd $StdPath
     git pull
 } else {
-    git clone https://github.com/<github-owner>/personal-engineering-standards.git $StdPath
+    git clone https://github.com/<github-owner>/personal-ai-standards.git $StdPath
 }
 
 # Deploy skills and steering to your installed AI tools
@@ -32,7 +32,7 @@ if [ -d "$STD_PATH/.git" ]; then
     cd "$STD_PATH"
     git pull
 else
-    git clone https://github.com/<github-owner>/personal-engineering-standards.git "$STD_PATH"
+    git clone https://github.com/<github-owner>/personal-ai-standards.git "$STD_PATH"
 fi
 
 cd "$STD_PATH"

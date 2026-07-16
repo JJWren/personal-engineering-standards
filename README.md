@@ -1,4 +1,4 @@
-# Personal Engineering Standards
+# Personal AI Standards
 
 This repository centralizes my language standards, AI-assisted development workflows, and portable AI skills. It is designed to be a "living" repository that I can clone to any machine and deploy to my AI tools.
 
@@ -12,7 +12,7 @@ This repository centralizes my language standards, AI-assisted development workf
 
 ## Setup
 
-1. Clone this repository to `C:\Users\{you-username-here}\source\personal-engineering-standards`.
+1. Clone this repository to `C:\Users\{you-username-here}\source\personal-ai-standards`.
 2. Ensure the following environment variables are set:
    - `LLMWIKI_ROOT`
    - `PERSONAL_OBSIDIAN_VAULT`
