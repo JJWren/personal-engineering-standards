@@ -28,3 +28,6 @@ yarn-error.log*
 # Temporary files
 tmp/
 temp/
+
+# Packaged claude.ai skill zips (regenerate with claude-web/package-skills.ps1)
+claude-web/dist/
