@@ -4,7 +4,7 @@ Backgroundless logo derived from the source artwork (gray background removed, al
 
 | File | Description |
 | --- | --- |
-| `logo.svg` | Scalable SVG with the transparent logo embedded (no background). |
+| `logo.svg` | True vector SVG (traced to filled paths, no background). |
 | `logo.png` | Transparent PNG master (squared, centered). |
 | `logo.ico` | Multi-resolution icon containing 16×16, 32×32, and 48×48. |
 | `logo-16.ico` | Single 16×16 icon. |
